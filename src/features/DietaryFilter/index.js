@@ -43,7 +43,7 @@ export default function DietaryFilter() {
       id: 6,
       name: "Tofu Curry",
       dietaryTag: "vegan",
-      ingredients: "Tofu, coconut milk, curry leaves",
+      ingredients: "Tofu, coconut milk, curry leaves,spices",
       region: "South India",
     },
     {
