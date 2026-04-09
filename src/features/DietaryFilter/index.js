@@ -1,41 +1,8 @@
-/*
-=========================================================
- FEATURE: Dietary Filter Explorer
-=========================================================
-
- GOAL:
-Filter recipes by dietary preference.
-
----------------------------------------------------------
- REQUIREMENTS:
-1. Static dataset of recipes with dietaryTag field
-2. Filter buttons: All, Jain, Vegan, Sattvic, Gluten-Free
-3. Clicking a filter shows only matching recipes
-
----------------------------------------------------------
- IMPLEMENTATION STEPS:
-
-STEP 1 — Create recipes array with dietaryTag field
-STEP 2 — Add useState for selected filter
-STEP 3 — Filter recipes based on selected tag
-STEP 4 — Render filter buttons and recipe cards
-
----------------------------------------------------------
- EXPECTED OUTPUT:
-
-✔ Filter buttons visible
-✔ Clicking a filter updates the recipe list
-✔ "No results" message when no match
-
----------------------------------------------------------
- DO NOT:
-- Make API calls
-=========================================================
-*/
 // D:\Competition\Culture-RasaVeda\src\features\DietaryFilter\index.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
+
 export default function DietaryFilter() {
   // Static dataset of recipes with dietaryTag field
   const allRecipes = [
@@ -125,7 +92,6 @@ export default function DietaryFilter() {
     },
   ];
 
-  // Filter options
   const filterOptions = [
     { id: "jain", label: "Jain", icon: "🕉️" },
     { id: "vegan", label: "Vegan", icon: "🌱" },
@@ -133,7 +99,6 @@ export default function DietaryFilter() {
     { id: "gluten-free", label: "Gluten-Free", icon: "🌾" },
   ];
 
-  // Load saved filters from localStorage
   const loadSavedFilters = () => {
     const saved = localStorage.getItem("dietaryFilters");
     return saved ? JSON.parse(saved) : [];
@@ -141,12 +106,10 @@ export default function DietaryFilter() {
 
   const [selectedFilters, setSelectedFilters] = useState(loadSavedFilters());
 
-  // Save to localStorage when filters change
   useEffect(() => {
     localStorage.setItem("dietaryFilters", JSON.stringify(selectedFilters));
   }, [selectedFilters]);
 
-  // Filter recipes
   const filteredRecipes =
     selectedFilters.length === 0
       ? allRecipes
@@ -162,19 +125,11 @@ export default function DietaryFilter() {
     );
   };
 
-  const clearAllFilters = () => {
-    setSelectedFilters([]);
-  };
-
-  const getRecipeCount = (tag) => {
-    return allRecipes.filter((recipe) => recipe.dietaryTag === tag).length;
-  };
-
-  // Get icon for dietary tag
-  const getTagIcon = (tag) => {
-    const option = filterOptions.find((opt) => opt.id === tag);
-    return option ? option.icon : "🍽️";
-  };
+  const clearAllFilters = () => setSelectedFilters([]);
+  const getRecipeCount = (tag) =>
+    allRecipes.filter((recipe) => recipe.dietaryTag === tag).length;
+  const getTagIcon = (tag) =>
+    filterOptions.find((opt) => opt.id === tag)?.icon || "🍽️";
 
   return (
     <div className="page">
@@ -196,7 +151,6 @@ export default function DietaryFilter() {
         </p>
       </div>
 
-      {/* Filter Bar */}
       <div
         style={{
           marginBottom: "1rem",
@@ -225,7 +179,6 @@ export default function DietaryFilter() {
             </button>
           ))}
         </div>
-
         {selectedFilters.length > 0 && (
           <button
             onClick={clearAllFilters}
@@ -244,7 +197,6 @@ export default function DietaryFilter() {
         )}
       </div>
 
-      {/* Live Recipe Count */}
       <div
         style={{
           marginBottom: "1.5rem",
@@ -274,7 +226,6 @@ export default function DietaryFilter() {
         )}
       </div>
 
-      {/* Recipe Grid */}
       {filteredRecipes.length > 0 ? (
         <div className="grid">
           {filteredRecipes.map((recipe) => (
@@ -342,7 +293,6 @@ export default function DietaryFilter() {
         </div>
       )}
 
-      {/* Save Indicator */}
       <div
         style={{
           marginTop: "2rem",
