@@ -1,10 +1,8 @@
-// D:\Competition\Culture-RasaVeda\src\features\DietaryFilter\index.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
 export default function DietaryFilter() {
-  // Static dataset of recipes with dietaryTag field
   const allRecipes = [
     {
       id: 1,
@@ -99,7 +97,6 @@ export default function DietaryFilter() {
     { id: "gluten-free", label: "Gluten-Free", icon: "🌾" },
   ];
 
-  // Load saved filters from localStorage
   const loadSavedFilters = () => {
     const saved = localStorage.getItem("dietaryFilters");
     return saved ? JSON.parse(saved) : [];
@@ -107,12 +104,10 @@ export default function DietaryFilter() {
 
   const [selectedFilters, setSelectedFilters] = useState(loadSavedFilters());
 
-  // Save to localStorage when filters change
   useEffect(() => {
     localStorage.setItem("dietaryFilters", JSON.stringify(selectedFilters));
   }, [selectedFilters]);
 
-  // Filter recipes based on selected tags
   const filteredRecipes =
     selectedFilters.length === 0
       ? allRecipes
@@ -120,7 +115,6 @@ export default function DietaryFilter() {
           selectedFilters.includes(recipe.dietaryTag)
         );
 
-  // Toggle filter selection
   const toggleFilter = (filterId) => {
     setSelectedFilters((prev) =>
       prev.includes(filterId)
@@ -129,17 +123,15 @@ export default function DietaryFilter() {
     );
   };
 
-  // Clear all filters
+  // KEEP THESE VERSIONS (with curly braces)
   const clearAllFilters = () => {
     setSelectedFilters([]);
   };
 
-  // Get count of recipes per dietary tag
   const getRecipeCount = (tag) => {
     return allRecipes.filter((recipe) => recipe.dietaryTag === tag).length;
   };
 
-  // Get icon for dietary tag
   const getTagIcon = (tag) => {
     const option = filterOptions.find((opt) => opt.id === tag);
     return option ? option.icon : "🍽️";
@@ -165,7 +157,6 @@ export default function DietaryFilter() {
         </p>
       </div>
 
-      {/* Filter Bar */}
       <div
         style={{
           marginBottom: "1rem",
@@ -213,7 +204,6 @@ export default function DietaryFilter() {
         )}
       </div>
 
-      {/* Live Recipe Count */}
       <div
         style={{
           marginBottom: "1.5rem",
@@ -243,7 +233,6 @@ export default function DietaryFilter() {
         )}
       </div>
 
-      {/* Recipe Grid */}
       {filteredRecipes.length > 0 ? (
         <div className="grid">
           {filteredRecipes.map((recipe) => (
@@ -311,7 +300,6 @@ export default function DietaryFilter() {
         </div>
       )}
 
-      {/* Save Indicator */}
       <div
         style={{
           marginTop: "2rem",
